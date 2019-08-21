@@ -2,13 +2,15 @@
 
 Code from the paper ["Language Models are Unsupervised Multitask Learners"](https://d4mucfpksywv.cloudfront.net/better-language-models/language-models.pdf).
 
-We have currently released small (117M parameter) and medium (345M parameter) versions of GPT-2.  While we have not released the larger models, we have [released a dataset](https://github.com/openai/gpt-2-output-dataset) for researchers to study their behaviors.
+We have currently released small (124M parameter), medium (355M parameter), and large (774M parameter) versions of GPT-2<sup>*</sup>, with only the full model as of yet unreleased.  We have also [released a dataset](https://github.com/openai/gpt-2-output-dataset) for researchers to study their behaviors.
 
-See more details in our [blog post](https://blog.openai.com/better-language-models/).
+You can read about GPT-2 and release decisions in our [original blog post](https://blog.openai.com/better-language-models/) and [6 month follow-up post](https://openai.com/blog/gpt-2-6-month-follow-up/).
+<sup>*</sup> *Note that our original parameter counts were wrong due to an error (in our previous blog posts and paper).  Thus you may have seen small referred to as 117M and medium referred to as 345M.*
 
 ## Usage
 
 This repository is meant to be a starting point for researchers and engineers to experiment with GPT-2.
+For basic information, see our [model card](./model_card.md).
 
 ### Some caveats
 
@@ -32,7 +34,7 @@ See [CONTRIBUTORS.md](./CONTRIBUTORS.md)
 
 ## Fine tuning on custom datasets
 
-To retrain GPT-2 117M model on a custom text dataset:
+To retrain GPT-2 124M model on a custom text dataset:
 
 ```
 PYTHONPATH=src ./train.py --dataset <file|directory|glob>
@@ -47,7 +49,7 @@ PYTHONPATH=src ./train.py --dataset /path/to/encoded.npz
 
 ### Gradient Checkpointing
 
-https://github.com/openai/gradient-checkpointing is included to reduce the memory requirements of the model, and can be enabled by `--memory_saving_gradients`. The checkpoints are currently chosen manually (poorly) by just adding layer 10 to the 'checkpoints' collection in model.py. `--memory_saving_gradients` is enabled by default for training the 345M model.
+https://github.com/openai/gradient-checkpointing is included to reduce the memory requirements of the model, and can be enabled by `--memory_saving_gradients`. The checkpoints are currently chosen manually (poorly) by just adding layer 10 to the 'checkpoints' collection in model.py. `--memory_saving_gradients` is enabled by default for training the 355M model.
 
 ### Validation loss
 
@@ -55,7 +57,7 @@ Set `--val_every` to a number of steps `N > 0`, and "validation" loss against a 
 
 ### Optimizer
 
-You can use SGD instead of Adam with `--optimizer sgd`. This also helps conserve memory when training the 345M model. Note: the learning rate needs to be adjusted for SGD, due to not having Adam's gradient normalization (0.0006 seems to be a good number from some experiments).
+You can use SGD instead of Adam with `--optimizer sgd`. This also helps conserve memory when training the 355M model. Note: the learning rate needs to be adjusted for SGD, due to not having Adam's gradient normalization (0.0006 seems to be a good number from some experiments).
 
 ### Multi gpu (out of date)
 
